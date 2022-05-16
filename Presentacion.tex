@@ -1,11 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%% Tipo de documento %%%%%%%%%%%%%%%%%%%%%%
-\documentclass[12pt,aspectratio=169]{beamer}
+\documentclass[11pt,aspectratio=169]{beamer}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%% Configuración de paquetes %%%%%%%%%%%%%%%%%%
 \usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
 \usepackage[spanish,es-tabla]{babel}
+\usepackage[type={CC},modifier={by-nc},version={4.0}]{doclicense}
+\usepackage[hypcap=true]{caption}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
@@ -14,9 +15,25 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{float}
+\usepackage{subfigure}
+\usepackage{array}
 \usepackage{url}
 \usepackage{xcolor-material}
-\usepackage[type={CC}, modifier={by-nc}, version={4.0}]{doclicense}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{xargs}
+\usepackage{parskip}
+\usepackage{charter}
+\usepackage{svg}
+\usepackage{pgfpages}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{multimedia}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%% Selección de fuente %%%%%%%%%%%%%%%%%%%%
+\renewcommand*\familydefault{bch}
+\fontfamily{\familydefault}\selectfont
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%% Información del documento %%%%%%%%%%%%%%%%%%
@@ -24,24 +41,25 @@
 \subtitle{Sistema de control para planta de tratamiento de efluentes}
 \author[Gianluca \& Gabriel]{Gianluca Lovatto y Gabriel Aguirre}
 \date{\today}
-\titlegraphic{\includegraphics[scale=0.18]{img/logo.png}}
-\institute[UNER FCAL]{Facultad de Ciencias de la Alimentación}
+\titlegraphic{\includesvg[inkscapelatex=false,scale=0.18]{src/imagenes/doc/logo}}
+\institute[FCAL UNER]{Facultad de Ciencias de la Alimentación}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%% Configuración de diapositivas %%%%%%%%%%%%%%%%%
 \usetheme{Madrid}
-\usecolortheme{default}
-\usefonttheme{default}
-\useinnertheme{default}
-\useoutertheme{default}
 
 \setbeamercovered{invisible}
+
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{note page}{\pagecolor{MaterialGrey50}\insertnote}
 
 \setbeamercolor{background canvas}{bg=MaterialGrey50}
 \setbeamercolor{palette primary}{fg=MaterialGrey50,bg=MaterialIndigo700}
 \setbeamercolor{palette secondary}{fg=MaterialGrey50}
 \setbeamercolor{palette tertiary}{fg=MaterialGrey50}
+
+% Comentar esta linea si no se desean notas en la presentación
+\setbeameroption{show notes on second screen=right}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%% Inicio del documento %%%%%%%%%%%%%%%%%%%%
@@ -49,91 +67,410 @@
 
 \begin{frame}
     \maketitle
-\end{frame}
 
-\begin{frame}{Introducción}
-    \begin{center}
-        \textbf
-        {
-            Hablar sobre la importancia de los sistemas de control en la industria.
-        }
-    \end{center}
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Presentación personal}
+            \item{\textbf{Cierre:} Presentación del proyecto final (que vamos a presentar) junto con el título}
+        \end{itemize}
+    }
 \end{frame}
 
 {
     \setbeamercolor{background canvas}{bg=MaterialIndigo700}
 
-    \begin{frame}[plain]{Problemática}
+    \begin{frame}[plain]
         \begin{center}
-            \textcolor{MaterialGrey50}{\textbf
+            \textcolor{MaterialGrey50}{\textbf{\Huge
             {
-                Controlar el nivel de oxígeno disuelto (OD) en la pileta de aireación
-            }}
+                INTRODUCCIÓN
+            }}}
         \end{center}
     \end{frame}
 }
 
-\begin{frame}{Planta de tratamiento}
+\begin{frame}{Industria}
     \begin{center}
-        \textbf
-        {
-            Explicar que es una planta de tratamiento de aguas residuales.
-        }
+        \includesvg[inkscapelatex=false,scale=0.3]{src/imagenes/icons/factory}
+        \includesvg[inkscapelatex=false,scale=0.3]{src/imagenes/icons/gears}
     \end{center}
+
+    \begin{center}
+        \includesvg[inkscapelatex=false,scale=0.3]{src/imagenes/icons/machine}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} En una industria existen multitud de procesos efectuándose de manera simultanea. Un proceso industrial es un conjunto de actividades que se realizan para convertir la materia prima en un producto final}
+            \item{\textbf{Cierre:} Para que una planta pueda realizar la tarea para la cual fue construida, es necesario que todos estos procesos estén sincronizados y lo mas optimizados posibles}
+        \end{itemize}
+    }
 \end{frame}
 
-\begin{frame}{Planta de tratamiento}
-    \begin{center}
-        \textbf
-        {
-            Mostrar el proceso completo.
-        }
-    \end{center}
+\begin{frame}{Procesos industriales}
+    \begin{multicols}{2}
+        \begin{itemize}
+            \item{Reducción de tiempos}
+            \item{Mejorar la calidad}
+            \item{Mejorar la productividad y eficiencia}
+            \item{Optimizar los costos}
+        \end{itemize}
+
+        \columnbreak
+
+        \begin{center}
+            \vspace*{\fill}
+            \includesvg[inkscapelatex=false,scale=0.5]{src/imagenes/esquemas/eficienciaProceso}
+            \vspace*{\fill}
+        \end{center}
+    \end{multicols}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Cuando hablamos de procesos optimizados nos referimos a:}
+            \item{\textbf{Explicación de cada item:}}
+                \begin{itemize}
+                    \item{\textbf{Reducción de tiempos:} cuanto mas rápida sea la operación de un proceso, mejor. Esto implica que se pueden realizar mayor cantidad de tareas en el mismo lapso de tiempo}
+                    \item{\textbf{Mejorar la calidad:} satisfacer las expectativas del producto}
+                    \item{\textbf{Mejorar la productividad y eficiencia:} por un lado, facilitar el labor del operario. Por el otro que ese labor pueda realizarse utilizando la menor cantidad de recursos y energía posible}
+                    \item{\textbf{Optimizar los costos:} un proceso que es costoso normalmente posee un amplio rango de mejora, lo que trae un abaratamiento en los costos de operación, mejorando la rentabilidad}
+                \end{itemize}
+            \item{\textbf{Cierre:} Estas optimizaciones se hacen posibles gracias a la implementación de un adecuado sistema de control}
+        \end{itemize}
+    }
 \end{frame}
 
-\begin{frame}{Planta de tratamiento}
-    \begin{center}
-        \textbf
-        {
-            Mostrar en que parte del proceso nosotros intervenimos.
-        }
-    \end{center}
+\begin{frame}{Sistemas de control en la industria}
+    \begin{multicols}{3}
+        \begin{itemize}
+            \item{Instrumentación}
+            \item{Control}
+            \item{Automatización}
+        \end{itemize}
+
+        \columnbreak
+
+        \begin{center}
+            \vspace*{\fill}
+            \includesvg[inkscapelatex=false,scale=0.18]{src/imagenes/icons/controlSystem}
+            \vspace*{\fill}
+        \end{center}
+
+        \columnbreak
+
+        \begin{center}
+            \vspace*{\fill}
+            \includesvg[inkscapelatex=false,scale=0.35]{src/imagenes/icons/controlPanel}
+            \vspace*{\fill}
+        \end{center}
+    \end{multicols}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Los sistemas de control se encargan de corregir las desviaciones surgidas en las variables criticas del proceso respecto de los valores determinados que se consideran óptimos para su operación}
+            \item{\textbf{Desarrollo de items:}}
+                \begin{itemize}
+                    \item{\textbf{Instrumentación:} Medir es saber. Es crucial contar con un sistema adecuado de monitoreo, adquisición y reporte de datos}
+                    \item{\textbf{Control:} Un sistema de control para alcanzar los objetivos de operación. Encargado de procesar y analizar los datos para detectar y aislar situaciones anormales, tomar de decisiones de ajuste del proceso y hacer visible toda la información}
+                    \item{\textbf{Automatización:} Equipos y actuadores que trabajan sin la intervención de un ser humano controlados y monitorizados por las decisiones del sistema de control}
+                \end{itemize}
+            \item{\textbf{Cierre:} Este esquema definido brevemente forma parte de lo que se conoce como control automático de procesos industriales. Una de las disciplinas de mayor relevancia y desarrollo dentro de la ingeniería en los países industrializados}
+        \end{itemize}
+    }
 \end{frame}
 
-\begin{frame}{Diseño conceptual de la solución}
+\begin{frame}{Tendencia tecnológica de la industria}
     \begin{center}
-        \textbf
-        {
-            Explicar la idea de solución.
-        }
+        \includesvg[inkscapelatex=false,scale=0.3]{src/imagenes/icons/3dPrinter}
+        \includesvg[inkscapelatex=false,scale=0.3]{src/imagenes/icons/mechanicalArm2}
     \end{center}
+
+    \begin{center}
+        \includesvg[inkscapelatex=false,scale=0.3]{src/imagenes/icons/machine}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Vivimos una época donde la transformación digital se está realizando a pasos agigantados para poder adaptar los comercios y la industria a las nuevas necesidades del mercado}
+            \item{\textbf{Conclusión:} Las tendencias en la industria se centran en la automatización de los procesos en busca de una mayor eficiencia, la optimización de los sistemas de movilidad y el uso de la inteligencia artificial y el Big Data para el análisis de los datos generados.}
+            \item{\textbf{Cierre:} A esta tendencia de la industria a la incorporación de las tecnologías y soluciones modernas se la llama 4ta revolución industrial o Industria 4.0.}
+        \end{itemize}
+    }
 \end{frame}
 
-\begin{frame}{Definicion del proyecto}
+\begin{frame}{Industria 4.0}
     \begin{center}
-        \textbf
-        {
-            Explicar la definición del proyecto.
-        }
+        \includegraphics[scale=0.1]{src/imagenes/esquemas/industria40.jpg}
     \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} La Cuarta Revolución Industrial, o Industria 4.0, conceptualiza el cambio rápido en la tecnología, las industrias, los patrones y procesos sociales en el siglo XXI debido a la creciente interconectividad y la automatización inteligente}
+            \item{\textbf{Desarrollo:} A lo largo de esto, se están produciendo cambios fundamentales en la forma en que opera la red global de producción y suministro a través de la automatización continua de las prácticas industriales y de fabricación tradicionales. El uso de máquinas inteligentes que pueden analizar y diagnosticar problemas sin necesidad de intervención humana}
+            \item{\textbf{Conclusión:} La Industria 4.0 implica la promesa de una nueva revolución que combina técnicas avanzadas de producción y operaciones con tecnologías inteligentes que se integrarán en las organizaciones, las personas y los activos. Se refiere a una nueva manera de producir mediante la adopción de tecnologías 4.0, es decir, de soluciones enfocadas en la interconectividad, la automatización y los datos en tiempo real}
+            \item{\textbf{Cierre:} Esta transformación no solo abarca a la producción de bienes y/o servicios de la empresa, sino a toda la cadena de valor, dado que reconfigura tanto los procesos de elaboración y las prestaciones de productos, como la gestión empresaria, las relaciones clientes y proveedores y, en un sentido más amplio, los modelos de negocios}
+        \end{itemize}
+    }
 \end{frame}
 
-\begin{frame}{Diseño e ingeniería}
+{
+    \setbeamercolor{background canvas}{bg=MaterialIndigo700}
+
+    \begin{frame}[plain]
+        \begin{center}
+            \textcolor{MaterialGrey50}{\textbf{\Huge
+            {
+                PROCESO INDUSTRIAL
+            }}}
+        \end{center}
+    \end{frame}
+}
+
+\begin{frame}{Planta de tratamiento de efluentes}
     \begin{center}
-        \textbf
-        {
-            Planificación del proyecto.
-        }
+        \includegraphics[scale=0.19]{src/imagenes/esquemas/tratamientoDeEfluentes.png}
     \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Una planta de tratamiento de efluentes líquidos, también conocida como una estación depuradora de aguas residuales, es un conjunto de estructuras y procesos que permiten eliminar la carga contaminante de un líquido cloacal o industrial previo a su reutilización o vertido en un cuerpo de agua, como un arroyo, lago o mar.}
+            \item{\textbf{Desarrollo:} Los efluentes industriales suelen ser más contaminantes por tener una mayor concentración de sustancias orgánicas e inorgánicas. De no ser eliminadas previamente, pueden provocar efectos indeseados en el cuerpo receptor, como la proliferación de algas, la mortandad de peces por bajos niveles de oxígeno o la transmisión de enfermedades en poblaciones cercanas}
+            \item{\textbf{Cierre:} Para este trabajo nos basamos en una planta de tratamientos de efluentes de una empresa de la ciudad}
+        \end{itemize}
+    }
 \end{frame}
 
-\begin{frame}{Diseño e ingeniería}
+\begin{frame}{Planta de tratamiento de efluentes}
     \begin{center}
-        \textbf
+        \includesvg[inkscapelatex=false,scale=0.4]{src/imagenes/esquemas/diagramaPlantaDeTratamiento}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} La planta de tratamiento, consiste en un conjunto de instalaciones y equipos destinados a tratar los efluentes líquidos industriales generados en las dos líneas de producción de tableros de fibra de madera (MDF). La materia prima en forma de chips húmedos, antes de ser desfibrada, sufre un proceso de vaporización a baja presión. Luego es comprimida por un tornillo cónico donde se produce una corriente líquida con alta carga de materia orgánica en suspensión. La misma se compone de los extractos típicos de la madera, su propia humedad y el vapor de agua condensado que fuera utilizado para el calentamiento}
+            \item{\textbf{Desarrollo:} Explicación breve de las etapas en la planta de tratamiento}
+            \item{\textbf{Cierre:} Por lo tanto, el objetivo del tratamiento de las aguas residuales, es producir un efluente reutilizable y un residuo sólido para su posterior uso}
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Costos operativos de una planta de tratamientos}
+    \begin{center}
+        \includegraphics[scale=0.35]{src/imagenes/esquemas/costosOperativos.png}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Como se menciono anteriormente, tener los procesos industriales lo mas óptimos posibles nos garantiza que tengamos mayor eficiencia y menores costos de operación.}
+            \item{\textbf{Desarrollo:} En el gráfico se puede observar los costos operativos de una planta de tratamiento de aguas residuales. Lo primero que llama la atención, es que en la etapa de tratamiento biológico (que pertenece al tratamiento secundario), es donde mayores costos se tiene respecto a las demás}
+            \item{\textbf{Cierre:} Entonces vamos a ver mas en profundidad como funciona el tratamiento biológico y porque tiene costos tan altos}
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Tratamiento biológico}
+    \begin{center}
+        \includesvg[inkscapelatex=false,scale=0.4]{src/imagenes/esquemas/tratamientoBiologico.svg}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Las aguas provenientes del tratamiento físico-químico contienen materia orgánica, en gran medida en forma soluble, la cual deberá ser eliminada en el tratamiento secundario de tipo biológico}
+            \item{\textbf{Desarrollo:} Desde el tratamiento primario, el agua residual ingresa en la zona anóxica. Esta zona se caracteriza por un bajo nivel de oxígeno disuelto en efluente. El agitador sumergido mantiene una agitación suave y constante, para impedir que el lodo sedimente en el fondo. Desde esta zona, el lodo activado, pasa por vaso comunicante a la sección de aireación. Es aquí donde los microorganismos específicos degradan la mayor parte de la materia orgánica, utilizándola como nutriente, y como consecuencia realizan una depuración biológica de agua residual. Definimos como lodos activos, a una mezcla de microorganismos y agua residual, aireados en forma permanente, durante un cierto tiempo (aprox. 3 a 4 días). El aire necesario para este proceso es vital, se incorpora mediante dos sopladores de aire tipo roots, y se distribuye mediante una grilla de difusión por burbujas gruesas sujeta al fondo de la cuba de aireación}
+            \item{\textbf{Cierre:} Explicado esto, empezamos a entender porque esta etapa tiene costos operativos tan elevados. Unos sopladores están continuamente insuflando aire al interior de la pileta. Este proceso no puede parar bajo ninguna circunstancia puesto que el lodo necesita de oxigeno para realizar su trabajo de depuración}
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Pileta de aireación}
+    \begin{center}
+        \includegraphics[scale=0.25]{src/imagenes/graficos/piletaCAD.png}
+        \includegraphics[scale=0.3]{src/imagenes/graficos/tuberias.png}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Como vimos, la zona de aireación esta formada por una pileta que posee un sistema de tuberías las cuales inyectan el aire al lodo}
+            \item{\textbf{Desarrollo:} Aca podemos ver una imagen 3D de la pileta de aireación}
+            \item{\textbf{Cierre:} El sistema de aireación es alimentado por dos sopladores tipo roots}
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Sistema de aireación}
+    \begin{multicols}{2}
+        \begin{center}
+            \includegraphics[scale=0.28]{src/imagenes/graficos/sopladores.png}
+        \end{center}
+
+        \columnbreak
+
+        \begin{center}
+            {
+                \footnotesize
+
+                \begin{itemize}
+                    \item{La operación de los sopladores es alternada. Con una frecuencia de cambio de aproximadamente 15 días}
+                    \item{El proceso de puesta en servicio de los sopladores se realiza de manera manual}
+                    \item{Cuando un soplador se encuentra en funcionamiento, este lo hace a máxima potencia}
+                    \item{El procedimiento de acople de un soplador se realiza cerrando una válvula de alivio}
+                    \item{No hay control en la cantidad (caudal) de aire soplado}
+                \end{itemize}
+            }
+        \end{center}
+    \end{multicols}
+
+    \note
+    {
         {
-            Diseño y validación del sistema.
+            \begin{itemize}
+                \item{\textbf{Inicio:} Estos son los sopladores. El sistema funciona de la siguiente manera:}
+                \item{\textbf{Desarrollo:} Explicar el modo de operación (items de la filmina)}
+                \item{\textbf{Cierre:} Esta forma de operar el sistema y actuar sobre el proceso, no es la mas optima, lo que abre un potencial de mejora muy grande}
+            \end{itemize}
+        }
+    }
+\end{frame}
+
+{
+    \setbeamercolor{background canvas}{bg=MaterialIndigo700}
+
+    \begin{frame}[plain]
+        \begin{center}
+            \textcolor{MaterialGrey50}{\textbf{\Huge
+            {
+                DEFINICIÓN DE LA PROBLEMÁTICA
+            }}}
+        \end{center}
+
+        \note
+        {
+            \begin{itemize}
+                \item{\textbf{Pie:} Para poder transformar este potencial de mejora a una oportunidad concreta de mejora, se requiere la identificación de un problema y el análisis de la situación}
+            \end{itemize}
+        }
+    \end{frame}
+}
+
+\begin{frame}{Problemas en el modo de operación actual}
+    \begin{center}
+        {
+            \footnotesize
+
+            \begin{itemize}
+                \item{El sistema siempre esta funcionando a la máxima potencia, lo que consume cantidades excesivas de energía}
+                \item{Una alta concentración de oxígeno puede causar problemas en la eficiencia del proceso de desnitrificación (el cual requiere condiciones anóxicas)}
+                \item{El operario solo es un espectador de lo que ocurre, ya que no puede controlar de ninguna manera los parámetros de operación, lo que requiere una intervención manual y puede provocar algún tipo problema}
+                \item{No se considera ni se posee información alguna sobre las perturbaciones internas o externas que sufre el proceso. Los valores arrojados por los sensores no intervienen y ni siquiera son métricas que se capturan}
+                \item{Para visualizar el estado del proceso, un operario debe estar observando el SCADA. Esto supone un problema ante una falla de sistema, ya que si el operario no se encuentra en la sala de control durante los avisos, la accion correctiva podría producirse con demora}
+            \end{itemize}
         }
     \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Empezamos a ver que el modo de funcionamiento del proceso de aireación tiene algunos inconvenientes:}
+            \item{\textbf{Desarrollo de los items}}
+            \item{\textbf{Cierre:} Con estos inconvenientes surge la necesidad de mejora. Mas aún sabiendo que el tratamiento secundario de tipo biológico es el que mayores costos de operación posee}
+        \end{itemize}
+    }
+\end{frame}
+
+{
+    \setbeamercolor{background canvas}{bg=MaterialIndigo700}
+
+    \begin{frame}[plain]{Objetivo}
+        \begin{center}
+            \textcolor{MaterialGrey50}
+            {
+                Mejorar la eficiencia de la pileta de aireación en la planta de tratamiento de efluentes
+            }
+        \end{center}
+
+        \note
+        {
+            \begin{itemize}
+                \item{\textbf{Inicio:} Por esto el objetivo principal del proyecto es:}
+                \item{\textbf{Cierre:} Con lo cuál se inicia con un diseño conceptual de la posible solución}
+            \end{itemize}
+        }
+    \end{frame}
+}
+
+{
+    \setbeamercolor{background canvas}{bg=MaterialIndigo700}
+
+    \begin{frame}[plain]
+        \begin{center}
+            \textcolor{MaterialGrey50}{\textbf{\Huge
+            {
+                DISEÑO CONCEPTUAL DE LA SOLUCIÓN
+            }}}
+        \end{center}
+
+        \note
+        {
+            \begin{itemize}
+                \item{\textbf{Inicio:} Para dar solución a esta problemática se debe tener en cuenta los aspectos mencionados al inicio:}
+                \begin{enumerate}
+                    \item{Dar solución al problema de eficiencia}
+                    \item{Tener en cuenta las tendencias tecnológicas en la industria}
+                \end{enumerate}
+            \end{itemize}
+        }
+    \end{frame}
+}
+
+\begin{frame}{Sistemas de control para industria}
+    \begin{center}
+        \begin{itemize}
+            \item{Control de supervisión y adquisición de datos (SCADA)}
+            \item{Sistemas de control distribuido (DCS)}
+            \item{Sistemas de control y automatización industrial (IACS)}
+            \item{Controladores lógicos programables (PLC)}
+            \item{Controladores de automatización programables (PAC)}
+            \item{Control remoto unidades terminales (RTU)}
+            \item{Servidores de control}
+            \item{Dispositivos electrónicos inteligentes (IED)}
+            \item{Sensores}
+        \end{itemize}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Como vimos, la zona de aireación esta formada por una pileta que posee un sistema de tuberías las cuales inyectan el aire al lodo}
+            \item{\textbf{Desarrollo:} Aca podemos ver una imagen 3D de la pileta de aireación}
+            \item{\textbf{Cierre:} El sistema de aireación es alimentado por dos sopladores tipo roots}
+        \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Niveles de función en industria}
+    \begin{center}
+        \includesvg[inkscapelatex=false,scale=0.16]{src/imagenes/esquemas/nivelesEnIndustria}
+    \end{center}
+
+    \note
+    {
+        \begin{itemize}
+            \item{\textbf{Inicio:} Como vimos, la zona de aireación esta formada por una pileta que posee un sistema de tuberías las cuales inyectan el aire al lodo}
+            \item{\textbf{Desarrollo:} Aca podemos ver una imagen 3D de la pileta de aireación}
+            \item{\textbf{Cierre:} El sistema de aireación es alimentado por dos sopladores tipo roots}
+        \end{itemize}
+    }
 \end{frame}
 
 % Referencias
@@ -143,19 +480,18 @@
         \bibitem{Author1990}
             Kung Ching Chang
             \newblock{\em Infinite Dimensional Morse Theory and Multiple Solution Problems}.
-            \newblock{Vol. 6. Progres in nonlinear Diferential Equation and Their Aplications. Boston, Birkhauser, 1991.}
+            \newblock{Vol. 6. Progres in nonlinear Diferential Equation and Their Aplications.}
         
         \beamertemplatebookbibitems
-        \bibitem{Author19901}
-            Kanischka Perera.
-            \newblock{\em Nontrivial groups in p-Laplacian problems via the Yang index}.
-            \newblock{The \LaTeX\ Companion. In Topol. Methodos Nolinear Anal. 21.2 (2003) , pp 301-303}
+        \bibitem{MTTBTAR}
+            Manual técnico sobre tecnologías biológicas aerobias aplicadas al tratamiento de aguas residuales industriales
+            \newblock{\em Dr. Germán Buitrón Méndez, Dr. Germán Buitrón Méndez y Dr. Julián Carrera Muyo}
+            \newblock{Red de Tratamiento y reciclaje de aguas industriales mediante soluciones sostenibles fundamentadas en procesos biológicos}
         
         \beamertemplateonlinebibitems
-        \bibitem{Author2019}
-            Aprendiendo \LaTeX
-            \newblock{\em Página de Facebook}.
-            \newblock{Manuel Merino}
+        \bibitem{SVGREPO}
+            Iconos SVG utilizados en la presentación
+            \newblock{\em \href{https://www.svgrepo.com/}{https://www.svgrepo.com/}}
     \end{thebibliography}
 \end{frame}
 
